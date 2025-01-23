@@ -5,10 +5,19 @@
 
 puzzle range:
 
-Start
-0000000000000000000000000000000000000000000000004000000000000000 
-End
-000000000000000000000000000000000000000000000007ffffffffffffffff 
+![Snap 2025-01-23 at 6 21 27 PM](https://github.com/user-attachments/assets/6be64eb0-65ad-469f-ba03-72f5a88f02b9)
+
+![Snap 2025-01-23 at 6 31 13 PM](https://github.com/user-attachments/assets/f0af31c3-0d04-4ca3-afe9-98d535d7736f)
+
+
+https://www.blockchain.com/explorer/transactions/btc/12f34b58b04dfb0233ce889f674781c0e0c7ba95482cca469125af41a78d13b3
+
+Publickey
+
+"47304402201aa2191b2452c95944b0baed16de68887362f70259d19ba8e36f78bb1d867fb502203396e78b72ce3ca963e74c0e090f94c8739b84d0778dfe0d32077eb24b634eb801210244f37b861fe56975fff38a9b81158127214346402bae27edf7e75246cc94095c"
+
+
+
 
 Sure, here is a shell script that uses `openssl` to generate a Bitcoin private key and derive the corresponding public key. This script assumes you have `openssl` installed on your system.
 
