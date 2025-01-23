@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Generate a new private key
+openssl ecparam -name secp256k1 -genkey -noout -out private_key.pem
+
+# Convert the private key to hexadecimal format
+PRIVATE_KEY_HEX=$(openssl ec -in private_key.pem -text -noout | grep "priv:" -A 3 | tail -n +2 | tr -d '\n[:space:]:')
+
+# Display the private key in hexadecimal format
+echo "Private Key (hex): $PRIVATE_KEY_HEX"
+
+# Derive the public key
+openssl ec -in private_key.pem -pubout -out public_key.pem
+
+# Convert the public key to hexadecimal format
+PUBLIC_KEY_HEX=$(openssl ec -in private_key.pem -pubout -outform DER | tail -c 65 | xxd -p -c 65)
+
+# Display the public key in hexadecimal format
+echo "Public Key (hex): $PUBLIC_KEY_HEX"
+
+# Clean up generated files
+rm private_key.pem public_key.pem
