@@ -3,6 +3,13 @@
 
 
 
+puzzle range:
+
+Start
+0000000000000000000000000000000000000000000000004000000000000000 
+End
+000000000000000000000000000000000000000000000007ffffffffffffffff 
+
 Sure, here is a shell script that uses `openssl` to generate a Bitcoin private key and derive the corresponding public key. This script assumes you have `openssl` installed on your system.
 
 ```sh
