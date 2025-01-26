@@ -49,6 +49,34 @@ rm private_key.pem public_key.pem
 ```
 
 
+It's important to note that deriving a private key from a public key in Bitcoin is not feasible due to the nature of elliptic curve cryptography. The process of generating a public key from a private key is a one-way function, meaning it cannot be reversed. This is what ensures the security of cryptocurrencies like Bitcoin.
+
+Here’s a brief overview of the process:
+
+1. **Generate a Private Key:** A private key is a randomly generated 256-bit number.
+2. **Generate a Public Key:** The private key is then used to generate a public key through elliptic curve multiplication, which is a one-way mathematical function.
+3. **Generate a Bitcoin Address:** The public key is then hashed to produce a Bitcoin address.
+
+Here's a simplified Python example demonstrating the generation of a public key from a private key:
+
+```python
+from ecdsa import SigningKey, SECP256k1
+
+# Generate a random private key
+private_key = SigningKey.generate(curve=SECP256k1)
+private_key_hex = private_key.to_string().hex()
+
+# Generate the corresponding public key
+public_key = private_key.get_verifying_key()
+public_key_hex = public_key.to_string().hex()
+
+print("Private Key:", private_key_hex)
+print("Public Key:", public_key_hex)
+```
+
+In this example, the `ecdsa` library is used to generate a private key and then derive the corresponding public key using the SECP256k1 curve, which is the elliptic curve used by Bitcoin.
+
+For security reasons, always keep your private key secure and never share it. If someone has access to your private key, they can control your Bitcoin.
 **Explanation:**
 
 1. **Generate a Private Key:**
