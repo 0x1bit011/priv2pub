@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# Function to perform double SHA-256 hash
+double_sha256() {
+    echo -n "$1" | xxd -r -p | openssl dgst -sha256 -binary | openssl dgst -sha256 -binary | xxd -p -c 32
+}
+
+# Function to convert hexadecimal private key to WIF
+hex_to_wif() {
+    local hex_key=$1
+    local version_byte="80"
+    local extended_key="${version_byte}${hex_key}"
+    local extended_key_checksum=$(double_sha256 "$extended_key")
+    local checksum=${extended_key_checksum:0:8}
+    local final_key="${extended_key}${checksum}"
+    echo -n "$final_key" | xxd -r -p | base58
+}
+
+# Function to convert private key to public key
+private_key_to_public_key() {
+    local hex_key=$1
+    echo -n "$hex_key" | xxd -r -p | openssl ec -pubout -conv_form uncompressed -text 2>/dev/null | tail -n +2 | tr -d '\n' | sed 's/.*://'
+}
+
+# Function to convert public key to Bitcoin address
+public_key_to_address() {
+    local public_key=$1
+    local sha256_hash=$(echo -n "$public_key" | xxd -r -p | openssl dgst -sha256 -binary | xxd -p -c 32)
+    local ripemd160_hash=$(echo -n "$sha256_hash" | xxd -r -p | openssl dgst -rmd160 -binary | xxd -p -c 32)
+    local version_byte="00"
+    local extended_ripemd160="${version_byte}${ripemd160_hash}"
+    local extended_ripemd160_checksum=$(double_sha256 "$extended_ripemd160")
+    local checksum=${extended_ripemd160_checksum:0:8}
+    local binary_address="${extended_ripemd160}${checksum}"
+    echo -n "$binary_address" | xxd -r -p | base58
+}
+
+# Example usage
+hex_key="000000000000000000000000000000000000000000000002832ed74f2b5e35ee"
+wif_key=$(hex_to_wif "$hex_key")
+public_key=$(private_key_to_public_key "$hex_key")
+address=$(public_key_to_address "$public_key")
+
+echo "WIF: $wif_key"
+echo "Address: $address"
